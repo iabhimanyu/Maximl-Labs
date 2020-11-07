@@ -1,0 +1,24 @@
+import collections
+def func(s):
+	numC = collections.Counter(s) #this gives a dictionary map with characters and their count
+	numC = len(numC) #this gives the number of distinct characters in the string
+	i,j=0,0
+	minStrSize = float('inf') #initialize minStrSize to infinte
+	D = collections.defaultdict(int)
+	
+	#similar to sliding window problem, when you get all the characters in the string,
+	#try to reduce the size of the string till the number of distinct characters remain to be numC
+	while i<=j and j<len(s):
+		D[s[j]] +=1
+		while len(D)==numC and i<=j: #this ensures that we reduce size by increasing i till our condition holds
+			minStrSize = min(minStrSize, j-i+1)
+			D[s[i]]-=1
+			if D[s[i]]==0:
+				del D[s[i]]
+			i+=1
+		j+=1
+	return minStrSize
+
+
+s = input()
+print(func(s))
